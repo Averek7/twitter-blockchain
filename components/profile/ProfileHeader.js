@@ -1,7 +1,8 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useRouter } from "next/router";
 import { BsArrowLeftShort } from "react-icons/bs";
 import TwitterContext from "../../context/TwitterContext";
+
 const style = {
   wrapper: `border-[#38444d] border-b`,
   header: `py-1 px-3 mt-2 flex items-center`,
@@ -19,7 +20,7 @@ const style = {
   activeNav: `text-white`,
 };
 function ProfileHeader() {
-  const { currentAccount, currentUser, tweets } = useContext(TwitterContext);
+  const { currentAccount, currentUser } = useContext(TwitterContext);
   const router = useRouter();
 
   return (
@@ -43,26 +44,30 @@ function ProfileHeader() {
         />
       </div>
       <div className={style.profileImageContainer}>
-        <div className="">
+        <div
+          className={
+            currentUser.isProfileImageNft ? "hex" : style.profileImageContainer
+          }
+        >
           <img
             src={currentUser.profileImage}
             alt={currentUser.walletAddress}
             className={
               currentUser.isProfileImageNft
-                ? `${style.profileImageNft}`
-                : `${style.profileImage}`
+                ? `${style.profileImage} smallHex`
+                : style.profileImage
             }
           />
         </div>
       </div>
       <div className={style.details}>
         <div>
-          <div className={style.primary}>{currentUser.name}</div>
+          <div className={style.primary}></div>
         </div>
         <div className={style.secondary}>
           {currentAccount && (
             <>
-              @{currentAccount.slice(0, 8)}....{currentAccount.slice(37)}
+              @{currentAccount.slice(0, 6)}....{currentAccount.slice(37)}
             </>
           )}
         </div>

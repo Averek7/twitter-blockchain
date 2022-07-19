@@ -54,42 +54,42 @@ function Sidebar({ initialSelectedIcon = "Home" }) {
           text="Explore"
           isActive={Boolean(selected === "Explore")}
           setSelected={setSelected}
-          redirect={"/"}
+          // redirect={"/"}
         />
         <SidebarOption
           Icon={selected === "Notifications" ? FaBell : FiBell}
           text="Notifications"
           isActive={Boolean(selected === "Notifications")}
           setSelected={setSelected}
-          redirect={"/"}
+          // redirect={"/"}
         />
         <SidebarOption
           Icon={selected === "Messages" ? HiMail : HiOutlineMail}
           text="Messages"
           isActive={Boolean(selected === "Messages")}
           setSelected={setSelected}
-          redirect={"/"}
+          // redirect={"/"}
         />
         <SidebarOption
           Icon={selected === "Bookmarks" ? BsBookmarkFill : BsBookmark}
           text="Bookmarks"
           isActive={Boolean(selected === "Bookmarks")}
           setSelected={setSelected}
-          redirect={"/"}
+          // redirect={"/"}
         />
         <SidebarOption
           Icon={selected === "Lists" ? RiFileList2Fill : FaRegListAlt}
           text="Lists"
           isActive={Boolean(selected === "Lists")}
           setSelected={setSelected}
-          redirect={"/"}
+          // redirect={"/"}
         />
         <SidebarOption
           Icon={selected === "Profile" ? BsPersonFill : BsPerson}
           text="Profile"
           isActive={Boolean(selected === "Profile")}
           setSelected={setSelected}
-          redirect={"/"}
+          redirect={"/profile"}
         />
         <SidebarOption Icon={CgMoreO} text="More" setSelected={setSelected} />
         <div

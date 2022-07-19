@@ -3,7 +3,8 @@ import { FaRegComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 import { format } from "timeago.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import TwitterContext from "../context/TwitterContext";
 
 const style = {
   wrapper: `flex p-3 border-b border-[#38444d]`,
@@ -27,13 +28,12 @@ function Post({
   isProfileImageNft,
   timestamp,
 }) {
-  const [profileImageLink] = useState(avatar);
-
+  const { currentUser } = useContext(TwitterContext);
   return (
     <div className={style.wrapper}>
       <div>
         <img
-          src={profileImageLink}
+          src={currentUser.profileImage}
           alt={username}
           className={
             isProfileImageNft
@@ -52,7 +52,7 @@ function Post({
               </span>
             )}
             <span className={style.handleAndTimeAgo}>
-              @{userName} • {format(new Date(timestamp).getTime())}
+              @{username} • {format(new Date(timestamp).getTime())}
             </span>
           </span>
           <div className={style.tweet}>{text}</div>

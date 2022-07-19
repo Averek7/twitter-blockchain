@@ -5,9 +5,8 @@ import client from "../lib/client";
 const TwitterContext = createContext();
 
 export const TwitterProvider = ({ children }) => {
-  const [appStatus, setAppStatus] = useState();
-  const [currentAccount, setCurrentAccount] = useState("loading...");
-  //   const [currentAccountId, setCurrentAccountId] = useState("");
+  const [appStatus, setAppStatus] = useState("");
+  const [currentAccount, setCurrentAccount] = useState("");
   const [tweets, setTweets] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const router = useRouter();
@@ -92,50 +91,58 @@ export const TwitterProvider = ({ children }) => {
 
   const fetchTweet = async () => {
     const query = `
-    *[_type == 'tweets']{
-      *author*: author->{name, walletAddress, profileImage, isProfileImageNft},
-      tweet,
-      timestamp
-    }|order(timestamp desc)`;
+      *[_type == "tweets"]{
+        "author": author->{name, walletAddress, profileImage, isProfileImageNft},
+        tweet,
+        timestamp
+      }|order(timestamp desc)
+    `;
 
-    const sanityResponse = await client.fetch(query);
-    sanityResponse.forEach(async (item) => {
+    const response = await client.fetch(query);
+
+    setTweets([]);
+
+    response.forEach((item) => {
       const newItem = {
         tweet: item.tweet,
         timestamp: item.timestamp,
         author: {
           name: item.author.name,
           walletAddress: item.author.walletAddress,
-          isProfileImageNft: item.author.isProfileImageNft,
           profileImage: item.author.profileImage,
+          isProfileImageNft: item.author.isProfileImageNft,
         },
       };
+      setTweets((prevState) => [...prevState, newItem]);
     });
-    setTweets((prevState) => [...prevState, newItem]);
   };
 
   const getCurrentUserDetails = async (userAccount = currentAccount) => {
     if (appStatus !== "Connected") return;
     const query = `
-      *[_type == "users" && _id == ${userAccount}]{
-        *tweets*: tweets[]->{timestamp, tweet}|order(timestamp desc),
+      *[_type == "users" && _id == "${userAccount}"]{
+        "tweets": tweets[]->{timestamp, tweet}|order(timestamp desc),
         name,
         profileImage,
         isProfileImageNft,
         coverImage,
-        walletAddress 
+        walletAddress
       }
     `;
-    const sanityResponse = await client.fetch(query);
+    const response = await client.fetch(query);
+
     setCurrentUser({
-      tweets: sanityResponse[0].tweets,
-      name: sanityResponse[0].name,
-      profileImage: sanityResponse[0].profileImage,
-      isProfileImageNft: sanityResponse[0].isProfileImageNft,
-      coverImage: sanityResponse[0].coverImage,
-      walletAddress: sanityResponse[0].walletAddress,
+      tweets: response[0].tweets,
+      name: response[0].name,
+      profileImage: response[0].profileImage,
+      walletAddress: response[0].walletAddress,
+      coverImage: response[0].coverImage,
+      isProfileImageNft: response[0].isProfileImageNft,
     });
   };
+
+  getCurrentUserDetails(currentAccount);
+
   return (
     <TwitterContext.Provider
       value={{

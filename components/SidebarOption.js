@@ -10,20 +10,20 @@ const style = {
 function SidebarOption({ text, Icon, isActive, setSelected, redirect }) {
   const router = useRouter();
 
-  // const handleClick = (buttonText = text) => {
-  //   if (buttonText !== "More" && setSelected) {
-  //     setSelected(buttonText);
-  //   } else return;
-  // };
+  const handleClick = (buttonText = text) => {
+    if (buttonText !== "More" && setSelected) {
+      setSelected(buttonText);
+    } else return;
+  };
 
   return (
     <div
       className={style.wrapper}
       onClick={() => {
-        setSelected(text);
-        // if (redirect) {
-        //   router.push(redirect);
-        // } else return;
+        handleClick(text);
+        if (redirect) {
+          router.push(redirect);
+        } else return;
       }}
     >
       <div className={style.iconContainer}>
