@@ -141,6 +141,7 @@ export const TwitterProvider = ({ children }) => {
     });
   };
 
+  fetchTweet();
   getCurrentUserDetails(currentAccount);
 
   return (
