@@ -9,6 +9,11 @@ import TwitterContext from "../../context/TwitterContext";
 import { contractABI, contractAddress } from "../../lib/constants";
 import { pinJSONToIPFS, pinFileToIPFS } from "../../lib/pinata";
 
+let metamask;
+if (typeof window !== "undefined") {
+  metamask = window.ethereum;
+}
+
 const getEthereumContract = () => {
   const provider = new ethers.providers.Web3Provider(metamask);
   const signer = provider.getSigner();
@@ -73,7 +78,7 @@ function ProfileImageMinter() {
     }
   };
 
-  const modalChildren = (modalStatus = status) => {
+  const renderLogic = (modalStatus = status) => {
     switch (modalStatus) {
       case "initial":
         <InitialState
@@ -98,7 +103,7 @@ function ProfileImageMinter() {
         break;
     }
   };
-  return <div>{modalChildren(status)}</div>;
+  return <>{renderLogic()}</>;
 }
 
 export default ProfileImageMinter;
